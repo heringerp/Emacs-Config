@@ -1,0 +1,80 @@
+* Configuration
+
+** Requirements
+
+   * init.el needs to be configured \rightarrow Windows change https to http
+   * sensible-defaults.el needs to be present in ~/.emacs.d/
+
+** Evil-Mode
+
+Loads evil and configures it to sane defaults.
+
+#+BEGIN_SRC emacs-lisp
+(use-package evil
+  :ensure t ;; install the evil package if not installed
+  :init ;; tweak evil's configuration before loading it
+  (setq evil-search-module 'evil-search)
+  (setq evil-ex-complete-emacs-commands nil)
+  (setq evil-vsplit-window-right t)
+  (setq evil-split-window-below t)
+  (setq evil-shift-round nil)
+  (setq evil-want-C-u-scroll t)
+  :config ;; tweak evil after loading it
+  (evil-mode))
+#+END_SRC
+
+** Which-Key
+
+Loads which-key and activates it.
+Which-key displays possibilities to continue
+a key-combination you already started.
+#+BEGIN_SRC emacs-lisp
+(use-package which-key)
+(which-key-mode)
+#+END_SRC
+
+** Helm
+
+Sets up helm
+
+#+BEGIN_SRC emacs-lisp
+(require 'helm-config)
+(use-package helm
+  :diminish helm-mode
+  :init
+  (progn
+    (require 'helm-config)
+    (setq helm-candidate-number-limit 100)
+    ;; From https://gist.github.com/antifuchs/9238468
+    (setq helm-idle-delay 0.0 ; update fast sources immediately (doesn't).
+          helm-input-idle-delay 0.01  ; this actually updates things
+                                        ; reeeelatively quickly.
+          helm-yas-display-key-on-candidate t
+          helm-quick-update t
+          helm-M-x-requires-pattern nil
+          helm-ff-skip-boring-files t)
+    (helm-mode))
+  :bind (("C-h a" . helm-apropos)
+         ("M-x" . helm-M-x)))
+#+END_SRC
+
+#+BEGIN_SRC emacs-lisp
+(menu-bar-mode -1)
+(toggle-scroll-bar -1)
+(tool-bar-mode -1)
+(hl-line-mode)
+
+(setq inhibit-splash-screen t)
+(global-display-line-numbers-mode)
+#+END_SRC
+
+** Sensible defaults
+
+Loads the sensible-defaults.el from the ~/.emacs.d
+directory and enables everything.
+
+#+BEGIN_SRC emacs-lisp
+(load-file "~/.emacs.d/sensible-defaults.el")
+(sensible-defaults/use-all-settings)
+(sensible-defaults/use-all-keybindings)
+#+END_SRC
