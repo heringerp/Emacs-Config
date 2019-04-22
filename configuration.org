@@ -78,3 +78,11 @@ directory and enables everything.
 (sensible-defaults/use-all-settings)
 (sensible-defaults/use-all-keybindings)
 #+END_SRC
+** AucTeX
+
+Sets up auctex for working with LaTeX files
+
+#+BEGIN_SRC emacs-lisp
+(use-package tex
+  :ensure auctex)
+#+END_SRC
